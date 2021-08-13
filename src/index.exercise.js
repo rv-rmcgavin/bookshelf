@@ -1,9 +1,45 @@
-// 🐨 you'll need to import React and ReactDOM up here
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import { Logo } from './components/logo';
+import { Dialog } from '@reach/dialog';
+import LoginForm from 'LoginForm';
+import '@reach/dialog/styles.css';
 
-// 🐨 you'll also need to import the Logo component from './components/logo'
+function App() {
+  const [openModal, setOpenModal] = React.useState('none');
 
-// 🐨 create an App component here and render the logo, the title ("Bookshelf"), a login button, and a register button.
-// 🐨 for fun, you can add event handlers for both buttons to alert that the button was clicked
+  const handleLogin = function(formData) {
+    console.log('login', formData);
+  }
 
-// 🐨 use ReactDOM to render the <App /> to the root element
-// 💰 find the root element with: document.getElementById('root')
+  const handleRegister = function(formData) {
+    console.log('register', formData);
+  }
+
+  return (
+    <div>
+      <Logo width="80" height="80" />
+      <h1>Bookshelf</h1>
+      <button onClick={() => setOpenModal('login')}>Login</button>
+      <button onClick={() => setOpenModal('register')}>Register</button>
+      <Dialog
+        isOpen={openModal === 'login'}
+        onDismiss={() => setOpenModal('none')}
+        aria-label="Login form"
+      >
+        <p>Login</p>
+        <LoginForm onSubmit={handleLogin} buttonText="Login" />
+      </Dialog>
+      <Dialog
+        isOpen={openModal === 'register'}
+        onDismiss={() => setOpenModal('none')}
+        aria-label="Registration form"
+      >
+        <p>Register</p>
+        <LoginForm onSubmit={handleRegister} buttonText="Register" />
+      </Dialog>
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
